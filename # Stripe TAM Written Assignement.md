@@ -23,7 +23,9 @@ Documents referenced: https://docs.stripe.com/api/customers/create
 stripe customers create --email="foster+TAM@gmail.com" --payment-method="pm_card_us"
 ```
 
-Result
+<details> 
+
+<summary> Response </summary>
 
 ```json
 {
@@ -56,6 +58,7 @@ Result
   "test_clock": null
 }
 ```
+</details>
 
 I want to ensure the payment method for this customer is default too.
 
@@ -65,7 +68,9 @@ Documents referenced: https://docs.stripe.com/api/customers/update
 stripe customers update cus_SgVtCz2hmBGNKK --invoice-settings.default-payment-method="pm_1Rl8rjB3KTBdesMMimQHvgT9"
 ```
 
-Result
+<details>
+
+<summary> Response </summary>
 
 ```json
 {
@@ -98,6 +103,7 @@ Result
   "test_clock": null
 }
 ```
+</details>
 
 ---
 
@@ -118,8 +124,9 @@ Note: Use --capture-method="manual" so that only the authorization is made, not 
 stripe payment_intents create --amount=10000 --currency="USD" --confirm=true --capture-method="manual" --customer="cus_SgVtCz2hmBGNKK" --payment-method="pm_1Rl8rjB3KTBdesMMimQHvgT9"
 ```
 
-Result
+<details> 
 
+<Summary> Response </Summary>
 
 ``` json
 {
@@ -311,13 +318,14 @@ Result
 }
 
 ```
-
+</details>
 
 ---
 
 ### 2b. Log into your Stripe dashboard (https://dashboard.stripe.com/) and include a screenshot of the payment page for the authorization you just created.
 
-![alt text](image.png)
+<img width="2716" height="642" alt="image" src="https://github.com/user-attachments/assets/0ef6e6b4-0d14-45dd-81e2-49ba502c6358" />
+
 
 ### 2c. Use an API call to create a capture for $75.
 
@@ -327,6 +335,10 @@ Docs referenced: https://docs.stripe.com/api/payment_intents/capture?api-version
 stripe payment_intents capture pi_3Rl9KAB3KTBdesMM0XTomcE8 --amount-to-capture=7500
 ```
 
+<details>
+
+ <Summary> Response </Summary> 
+ 
 ```json
 {
   "id": "pi_3Rl9KAB3KTBdesMM0XTomcE8",
@@ -516,6 +528,7 @@ stripe payment_intents capture pi_3Rl9KAB3KTBdesMM0XTomcE8 --amount-to-capture=7
   "transfer_group": null
 }
 ```
+</details>
 ---
 
 ### What happens to a charge if you only capture for a portion of an authorization, and not the full amount?
@@ -524,7 +537,7 @@ The $25 is released back to the same payment method of the customer. A partial c
 
 Docs referenced: https://docs.stripe.com/payments/place-a-hold-on-a-payment-method
 
-![](2025-07-15-10-26-32.png)
+<img width="2726" height="696" alt="image" src="https://github.com/user-attachments/assets/42d1cfd1-e115-43eb-9764-dfe71144cf59" />
 
 
 ### 2d. How do steps 2a-2c show on the customer’s bank statement?
@@ -603,7 +616,10 @@ Notes:
 stripe accounts create --country="US" --capabilities.transfers.requested=true --business-type="individual" --individual.address.city="New York City" --individual.address.country="US" --individual.address.line1="address_full_match" --individual.address.postal-code="12345" --individual.address.state="NY" --individual.first-name="Adam" --individual.last-name="Driver" --individual.dob.day=1 --individual.dob.month=1 --individual.dob.year=1901 --default-currency="USD" --email="connect+test@gmail.com" --tos-acceptance.date=1752512515 --tos-acceptance.ip="140.54.99.164" --business-profile.url="https://accessible.stripe.com" --settings.card-payments.statement-descriptor-prefix="Driving" --type="custom"
 ```
 
-Results
+<details> 
+  
+<summary> Response </summary>
+
 ```json
 {
   "id": "acct_1RlAGqPnLlHhkn0m",
@@ -1146,7 +1162,7 @@ Results
   "type": "custom"
 }
 ```
-
+</details>
 
 ### 3b. Create a “destination” charge for a Lyft ride in which the rider pays $20 and the driver receives $15. Provide the Payment Intent ID.
 
@@ -1161,7 +1177,9 @@ Docs referenced:
 stripe checkout sessions create --payment-intent-data.application-fee-amount=500 --payment-intent-data.capture-method="manual" --payment-intent-data.description="Lyft Ride" --payment-intent-data.transfer-data.destination="acct_1RlAGqPnLlHhkn0m" --mode="payment" --customer="cus_SgVtCz2hmBGNKK" --success-url="https://example.com/return?session_id={CHECKOUT_SESSION_ID}" -d "line_items[0][price_data][currency]=USD" -d "line_items[0][price_data][product_data][description]=Ride to Union Station" -d "line_items[0][price_data][product_data][name]=Lyft Ride" -d "line_items[0][price_data][unit_amount]=2000" -d "line_items[0][quantity]=1"
 ```
 
-Result
+<details> 
+
+<summary> Response </summary>
 
 ```json
 {
@@ -1279,6 +1297,8 @@ Result
 }
 ```
 
+</details>
+
 The Payment Intent Id is not created until the checkout is completed, since the checkout session is still open.
 
 Docs Referenced:
@@ -1293,7 +1313,9 @@ Double checking that the checkout session is complete, and then I can retrieve t
 stripe checkout sessions retrieve cs_test_a195W8jpnVB4sJt82Ob9sUNxugPAtoLcXyVkqZar5E1LkGgx1SQtbTPmST
 ```
 
-Result
+<details>
+
+<summary> Response </summary>
 
 ```json
 {
@@ -1410,6 +1432,8 @@ Result
 }
 ```
 
+</details>
+
 ### 3c. For this ride, how much is Lyft’s platform fee?
 
 Docs referenced: https://docs.stripe.com/api/application_fees/retrieve
@@ -1420,7 +1444,9 @@ Docs referenced: https://docs.stripe.com/api/application_fees/retrieve
 stripe payment_intents retrieve pi_3RlB48B3KTBdesMM1ctACLhR --expand="application_fee_amount
 ```
 
-Result:
+<details> 
+
+<summary> Response </summary>
 
 ```json
 {
@@ -1557,6 +1583,7 @@ Result:
 }
 
 ```
+</details>
 
  ### 3d. How much is the Stripe processing fee for this ride?
 
@@ -1568,7 +1595,10 @@ Result:
 stripe payment_intents retrieve pi_3RlB48B3KTBdesMM1ctACLhR --expand=charges.data.balance_transaction
 ```
 
-Result:
+<details> 
+
+
+<summary> Response </summary>
 
 ```json
 {
@@ -1729,6 +1759,7 @@ Result:
   "transfer_group": "group_pi_3RlB48B3KTBdesMM1ctACLhR"
 }
 ```
+</details>
 
 ### 3e. What are Lyft's net earnings for this ride? ###
 
@@ -1742,6 +1773,10 @@ Docs referenced:
 stripe application_fees retrieve fee_1RlDDXPnLlHhkn0m6Q797bFL --expand="balance_transaction"
 ```
 
+
+<details>
+  <summary> Response </summary>
+  
 ```json
 {
   "id": "fee_1RlDDXPnLlHhkn0m6Q797bFL",
@@ -1787,7 +1822,7 @@ stripe application_fees retrieve fee_1RlDDXPnLlHhkn0m6Q797bFL --expand="balance_
   }
 }
 ```
-
+</details>
 
 ### 3f. Now, try to have Lyft charge the driver $2 to cover the cost of the neon-lighted Lyft sign that sits in their dashboard. Provide the ID for that request. ###
 
@@ -1799,7 +1834,9 @@ Docs referenced: [Charge a connect account](https://docs.stripe.com/connect/acco
 stripe charges create --description="Direct charge for Lyft neon sign" --currency="USD" --amount=200 --source="acct_1RlAGqPnLlHhkn0m"
 ```
 
-Result:
+<details> 
+  
+<summary> Response </summary>
 
 ```json
 {
@@ -1880,6 +1917,8 @@ Result:
 }
 ```
 
+</details>
+
 ### 3g. Tell us about how you went about solving 3F. What is your API call doing? ###
 
 To solve 3F, Lyft needs charge the driver (connect account) $2.00 for a neon-light sign. This required creating a direct charge to the driver’s Connect Account.
@@ -1929,6 +1968,7 @@ When a customer wants to pay in a different currency than the platforms', Stripe
 - Allow Hosts to choose their preferred payout schedule (https://docs.stripe.com/payouts#:~:text=Subsequent%20payouts%20follow%20your%20account%E2%80%99s%20payout%20schedule)
   
 **Summary**
+
 Stripe Connect is a great fit for Vrbo and other short-term rental marketplaces due to it's capabilities to provide different payout methods, easy KYC and onboarding flows, and multi-currency payouts schemes. Almost any global marketplace, whether it's for short-term rentals or even something like Ebay, would gain huge efficiency and trust from it's users! 
   
 
